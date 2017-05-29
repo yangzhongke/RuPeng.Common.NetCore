@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageProjectUrl>http://www.rupeng.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/yangzhongke/RuPeng.Common.NetCore</RepositoryUrl>
+    <Description>RuPeng Common Helper</Description>
   </PropertyGroup>
 
 </Project>
