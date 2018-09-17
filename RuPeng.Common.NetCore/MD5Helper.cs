@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace RuPeng.Common.NetCore
 {
@@ -29,12 +26,7 @@ namespace RuPeng.Common.NetCore
             using (MD5 md5 = MD5.Create())
             {
                 byte[] computeBytes = md5.ComputeHash(bytes);
-                string result = "";
-                for (int i = 0; i < computeBytes.Length; i++)
-                {
-                    result += computeBytes[i].ToString("X").Length == 1 ? "0" + computeBytes[i].ToString("X") : computeBytes[i].ToString("X");
-                }
-                return result;
+                return GetHexString(computeBytes);
             }
         }
 
@@ -49,12 +41,28 @@ namespace RuPeng.Common.NetCore
             using (MD5 md5 = MD5.Create())
             {
                 byte[] computeBytes = md5.ComputeHash(stream);
-                string result = "";
-                for (int i = 0; i < computeBytes.Length; i++)
+                return GetHexString(computeBytes);
+            }
+        }
+
+        private static string GetHexString(byte[] bytes)
+        {
+            char[] hexArray = new char[bytes.Length << 1];
+            for (int i = 0; i < hexArray.Length; i += 2)
+            {
+                byte b = bytes[i >> 1];
+                hexArray[i] = GetHexValue(b >> 4);       // b / 16
+                hexArray[i + 1] = GetHexValue(b & 0xF);  // b % 16
+            }
+            return new string(hexArray, 0, hexArray.Length);
+
+            char GetHexValue(int i)
+            {
+                if (i < 10)
                 {
-                    result += computeBytes[i].ToString("X").Length == 1 ? "0" + computeBytes[i].ToString("X") : computeBytes[i].ToString("X");
+                    return (char)(i + '0');
                 }
-                return result;
+                return (char)(i - 10 + 'a');
             }
         }
     }
